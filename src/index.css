@@ -121,6 +121,9 @@ input[type="number"]:focus {
 .gap-1{
   gap: 12rem;
 }
+.gr{
+  width:100px
+}
 
 .border {
   border: 1px solid #cbd5e1;
@@ -232,3 +235,4 @@ input[type="number"]:focus {
  background-color: #bce4eb;
 
 } 
+ 

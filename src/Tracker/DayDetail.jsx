@@ -369,25 +369,19 @@ export default function DayDetail() {
       type="number"
       value={foodAmount}
       onChange={(e) => setFoodAmount(e.target.value)}
-      className="border p-2 w-24"
+      className="gr"
       placeholder={foodQuery?.unit === "item" ? "Count" : "Grams"}
     />
     <button
       onClick={addFoodFromDB}
-      className="bg-blue-500 text-white px-4 py-2 rounded"
+      className="addMeal"
     >
       Add
     </button>
   </div>
 </div>
-
-
       {/* Saved Recipes */}
       <div className="mt-6">
-        <h3 className="font-bold mb-2">Saved Recipes</h3>
-        {savedRecipes.length === 0 ? (
-          <p className="text-gray-500 text-sm">No saved recipes yet.</p>
-        ) : (
           <div className="mt-6">
   <h3 className="font-bold mb-2">Saved Recipes</h3>
   {savedRecipes.length === 0 ? (
@@ -423,7 +417,7 @@ export default function DayDetail() {
     </select>
   )}
 </div>
-        )}
+      
       </div>
     </div>
   );
