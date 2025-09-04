@@ -300,48 +300,65 @@ export default function DayDetail() {
         {meals.length === 0 && <li className="text-gray-500">No meals logged.</li>}
       </ul>
 
-      {/* Manual meal entry */}
-      <div className="flex flex-col gap-2 mb-4">
-        <input
-          type="text"
-          placeholder="Meal name"
-          value={mealName}
-          onChange={(e) => setMealName(e.target.value)}
-          className="border px-2 py-1 rounded w-full"
-        />
-        <input
-          type="number"
-          placeholder="Calories"
-          value={mealCalories}
-          onChange={(e) => setMealCalories(e.target.value)}
-          className="cal"
-        />
-        <div className="flex gap-2">
-          <input
-            type="number"
-            placeholder="Protein"
-            value={protein}
-            onChange={(e) => setProtein(e.target.value)}
-            className="Nutr"
-          />
-          <input
-            type="number"
-            placeholder="Carbs"
-            value={carbs}
-            onChange={(e) => setCarbs(e.target.value)}
-            className="Nutr"
-          />
-          <input
-            type="number"
-            placeholder="Fat"
-            value={fat}
-            onChange={(e) => setFat(e.target.value)}
-            className="Nutr"
-          />
-        </div>
-        <button onClick={handleAddManualMeal} className="addMeal">Add Meal</button>
-      </div>
-
+     {/* Manual meal entry */}
+<div className="text-gray-500">
+  <div className="flex flex-col gap-2">
+    <input
+      type="text"
+      placeholder="Meal name"
+      value={mealName}
+      onChange={(e) => setMealName(e.target.value)}
+      className="border px-2 py-1 rounded w-full"
+    />
+    <input
+      type="number"
+      placeholder="Calories"
+      value={mealCalories}
+      onChange={(e) => setMealCalories(e.target.value)}
+      className="cal"
+    />
+  </div>
+  <br />
+  <div className="flex flex-col gap-2">
+    <input
+      type="number"
+      placeholder="Protein"
+      value={protein}
+      onChange={(e) => setProtein(e.target.value)}
+      className="Nutr"
+    />
+    <input
+      type="number"
+      placeholder="Carbs"
+      value={carbs}
+      onChange={(e) => setCarbs(e.target.value)}
+      className="Nutr"
+    />
+    <input
+      type="number"
+      placeholder="Fat"
+      value={fat}
+      onChange={(e) => setFat(e.target.value)}
+      className="Nutr"
+    />
+    <button onClick={handleAddManualMeal} className="addMeal">
+      Save
+    </button>
+    <button
+      onClick={() => {
+        setMealName('');
+        setMealCalories('');
+        setProtein('');
+        setCarbs('');
+        setFat('');
+      }}
+      className="addMeal"
+    >
+      Cancel
+    </button>
+  </div>
+</div>
+<br/>
      {/* Search from NutritionDB */}
 <div className="mb-4">
   <div className="flex gap-2 items-center">
