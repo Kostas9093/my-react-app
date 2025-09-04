@@ -371,31 +371,41 @@ export default function DayDetail() {
         {savedRecipes.length === 0 ? (
           <p className="text-gray-500 text-sm">No saved recipes yet.</p>
         ) : (
-          <ul className="border rounded p-2 bg-gray-50 max-h-40 overflow-y-auto">
-            {savedRecipes.map((recipe, idx) => (
-              <li
-                key={idx}
-                className="cursor-pointer hover:bg-gray-200 p-1"
-               onClick={() => {
-                const newMeal = {
-                name: recipe.name,
-                calories: recipe.totalCalories,
-                protein: recipe.totalProtein,
-                carbs: recipe.totalCarbs,
-                fat: recipe.totalFat,
-                 time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-                   };
-                 addMeal(newMeal);
-                  }}
-              >
-                <strong>{recipe.name}</strong> — {recipe.totalCalories} kcal
-                <br />
-                <span className="text-sm text-gray-600">
-                  P {recipe.totalProtein}g, C {recipe.totalCarbs}g, F {recipe.totalFat}g
-                </span>
-              </li>
-            ))}
-          </ul>
+          <div className="mt-6">
+  <h3 className="font-bold mb-2">Saved Recipes</h3>
+  {savedRecipes.length === 0 ? (
+    <p className="text-gray-500 text-sm">No saved recipes yet.</p>
+  ) : (
+    <select
+      className="border rounded p-2 w-full bg-gray-50"
+      defaultValue=""
+      onChange={(e) => {
+        const selected = savedRecipes[e.target.value];
+        if (!selected) return;
+
+        const newMeal = {
+          name: selected.name,
+          calories: selected.totalCalories,
+          protein: selected.totalProtein,
+          carbs: selected.totalCarbs,
+          fat: selected.totalFat,
+          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        };
+        addMeal(newMeal);
+        e.target.value = ""; // reset selection after adding
+      }}
+    >
+      <option value="" disabled>
+        Select a recipe to add
+      </option>
+      {savedRecipes.map((recipe, idx) => (
+        <option key={idx} value={idx}>
+          {recipe.name} — {recipe.totalCalories} kcal
+        </option>
+      ))}
+    </select>
+  )}
+</div>
         )}
       </div>
     </div>
