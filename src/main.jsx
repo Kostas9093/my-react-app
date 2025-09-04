@@ -5,6 +5,7 @@ import Home from "./Home";              // Welcome page
 import RecipeApp from "./recipe/RApp";   // Your recipe app
 import TrackerApp from "./Tracker/TApp"; // Your tracker app
 import DayDetailWrapper from "./Tracker/DayDetail"; // wrapper for /tracker/day/:date
+import './index.css'
 
   // import "./home.module.css";
 
@@ -12,10 +13,10 @@ function App() {
   return (
     <Router>
       {/* ✅ Navigation is outside of Routes */}
-      <nav className="p-4 bg-gray-200 flex gap-4">
+     <nav className="p-4 bg-gray-200 flex gap-1">
         {/* <Link to="/">Home</Link> */}
-        <Link to="/recipe">Recipe App</Link>
-        <Link to="/tracker">Tracker App</Link>
+        <Link className="Applink" to="/recipe">Recipe App</Link>
+        <Link className="Applink" to="/tracker">Tracker App</Link>
       </nav>
 
       {/* ✅ All routes in one place */}
@@ -23,7 +24,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/recipe" element={<RecipeApp />} />
         <Route path="/tracker" element={<TrackerApp />} />
-        <Route path="/tracker/day/:date" element={<DayDetailWrapper />} />
+        <Route path="/tracker/day/:dayName" element={<DayDetailWrapper />} />
       </Routes>
     </Router>
   );

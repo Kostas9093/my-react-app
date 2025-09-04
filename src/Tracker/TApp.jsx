@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { getWeekNumber, calculateMaintenance } from './utils';
 import UserPrompt from './UserPrompt';
 import DayDetail from './DayDetail';
-import './tracker.module.css';
+// import './tracker.module.css';
 
 
 
