@@ -301,6 +301,7 @@ export default function DayDetail() {
       </ul>
 
      {/* Manual meal entry */}
+     <h3>Add meal and nutr info</h3>
 <div className="text-gray-500">
   <div className="flex flex-col gap-2">
     <input
@@ -342,9 +343,9 @@ export default function DayDetail() {
       className="Nutr"
     />
     <button onClick={handleAddManualMeal} className="addMeal">
-      Save
+      Add
     </button>
-    <button
+    {/* <button
       onClick={() => {
         setMealName('');
         setMealCalories('');
@@ -355,16 +356,19 @@ export default function DayDetail() {
       className="addMeal"
     >
       Cancel
-    </button>
+    </button> */}
   </div>
 </div>
 <br/>
      {/* Search from NutritionDB */}
+     <h3>Add a meal</h3>
 <div className="mb-4">
-  <div className="flex gap-2 items-center">
+  <div className="items-center">
     <div className="flex-1">
       <IngredientSearch onSelect={setFoodQuery} />
     </div>
+  </div>
+    <div>
     <input
       type="number"
       value={foodAmount}
@@ -372,18 +376,18 @@ export default function DayDetail() {
       className="gr"
       placeholder={foodQuery?.unit === "item" ? "Count" : "Grams"}
     />
-    <button
+    </div>
+   
+</div>
+ <button
       onClick={addFoodFromDB}
       className="addMeal"
-    >
-      Add
-    </button>
-  </div>
-</div>
+    > Add</button>
+
       {/* Saved Recipes */}
       <div className="mt-6">
           <div className="mt-6">
-  <h3 className="font-bold mb-2">Saved Recipes</h3>
+  <h3 className="font-bold mb-2">Add a saved recipe</h3>
   {savedRecipes.length === 0 ? (
     <p className="text-gray-500 text-sm">No saved recipes yet.</p>
   ) : (

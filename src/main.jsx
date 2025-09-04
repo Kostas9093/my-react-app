@@ -15,8 +15,8 @@ function App() {
       {/* ✅ Navigation is outside of Routes */}
      <nav className="p-4 bg-gray-200 flex gap-1">
         {/* <Link to="/">Home</Link> */}
-        <Link className="Applink" to="/recipe">Recipe App</Link>
-        <Link className="Applink" to="/tracker">Tracker App</Link>
+        <Link className="Applink" to="/recipe">Recipes</Link>
+        <Link className="Applink" to="/tracker">Calorie Tracker</Link>
       </nav>
 
       {/* ✅ All routes in one place */}
