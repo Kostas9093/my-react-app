@@ -35,6 +35,11 @@ function RecipeForm({ onSave, initialData }) {
     setIngredientKey(prev => prev + 1) // 🔄 Force IngredientSearch remount
   }
 
+  // ✅ New: delete ingredient
+  const handleDeleteIngredient = (index) => {
+    setIngredients(prev => prev.filter((_, i) => i !== index))
+  }
+
   const handleSubmit = () => {
     let total = { calories: 0, protein: 0, carbs: 0, fat: 0 }
 
@@ -65,35 +70,44 @@ function RecipeForm({ onSave, initialData }) {
   return (
     <div className="mb-6">
       <input
-        className="border p-2 w-full mb-2"
+        className=" items-center"
         value={name}
         onChange={(e) => setName(e.target.value)}
         placeholder="Recipe Name"
       />
 
-      <div className="flex gap-2 mb-2 items-center">
-        <div className="flex-1">
+      <div className=" items-center">
+        <div className="items-center">
           <IngredientSearch key={ingredientKey} onSelect={setSelectedIngredient} />
         </div>
         <input
-          className="border p-2 w-24"
+          className="gr"
           value={grams}
           type="number"
           onChange={(e) => setGrams(e.target.value)}
           placeholder={selectedIngredient?.unit === "item" ? "Count" : "Grams"}
         />
-        <button
-          className="bg-blue-500 text-white px-4 py-2 rounded"
+      </div> 
+      <br/> 
+       <button
+          className="addMeal"
           onClick={handleAddIngredient}
         >
           Add
         </button>
-      </div>
 
-      <ul className="mb-2 list-disc pl-5 text-sm">
+      <ul className="mb-2 list-disc pl-5">
         {ingredients.map((ing, idx) => (
-          <li key={idx}>
-            {ing.grams}g of {ing.name}
+            <li key={idx} className="flex justify-between items-center">
+            <span>{ing.grams}{ing.unit || "g"} of {ing.name}</span>
+            {/* ✅ Delete button */}
+            <button
+              type="button"
+              onClick={() => handleDeleteIngredient(idx)}
+              className="text-red-500 hover:underline ml-2"
+            >
+              Delete
+            </button>
           </li>
         ))}
       </ul>

@@ -31,7 +31,7 @@ h1, h2 {
   color: #1e293b;
   margin-bottom: 1rem;
   text-align: center;
-  color: rgb(56, 161, 209);
+  color: rgb(77, 104, 223);
 }
 
 button {
@@ -232,8 +232,12 @@ input[type="number"]:focus {
 }
 
 .Applink{
- background-color: #bce4eb;
- font-size: 1p0x;
+ font-size: 15px;
+ background-color: #7244ef;
+ color: whitesmoke;
+ border-radius: 10px;
+ text-align: center;
+ width: 60px;
 
 } 
  
