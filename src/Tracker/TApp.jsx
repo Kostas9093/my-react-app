@@ -167,7 +167,7 @@ export default function TrackerApp() {
             to="monthly"
             className="block mb-6 text-sm text-purple-700 underline hover:text-purple-900"
           >
-            📊 View Monthly Progress
+            📊 Monthly Progress
           </Link>
         </>
       )}

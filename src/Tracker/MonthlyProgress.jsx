@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { calculateMaintenance, getWeekNumber } from './utils';
+import { useParams, useNavigate } from 'react-router-dom';
 import {
   LineChart,
   Line,
@@ -41,6 +42,7 @@ export default function MonthlyProgress() {
   const [data, setData] = useState({});
   const [userData, setUserData] = useState(null);
   const [monthlyData, setMonthlyData] = useState([]);
+   const navigate = useNavigate();
 
   useEffect(() => {
     const stored = localStorage.getItem('calorieData');
@@ -100,6 +102,11 @@ export default function MonthlyProgress() {
 
   return (
     <div className="p-4 max-w-3xl mx-auto">
+      <div className="p-4 max-w-xl mx-auto">
+      <button onClick={() => navigate('/')} className="mb-4 text-blue-500 hover:underline">
+        ← Back
+      </button>
+      </div>
       <h1 className="text-2xl font-bold mb-4">Monthly Progress</h1>
       <div className="mb-4 border p-4 rounded">
         <div className="font-semibold mb-2">Monthly Summary</div>

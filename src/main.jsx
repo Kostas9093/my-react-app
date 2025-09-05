@@ -1,23 +1,42 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { HashRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { HashRouter as Router, Routes, Route, Link, useLocation } from "react-router-dom";
 import Home from "./Home";              // Welcome page
 import RecipeApp from "./recipe/RApp";   // Your recipe app
 import TrackerApp from "./Tracker/TApp"; // Your tracker app
 import DayDetailWrapper from "./Tracker/DayDetail"; // wrapper for /tracker/day/:date
+import MonthlyProgress from "./Tracker/MonthlyProgress";
 import './index.css'
 
-  // import "./home.module.css";
+// ✅ Separate component for conditional nav
+function ConditionalNav() {
+  const location = useLocation();
+
+  // Show nav only on home page "/"
+  if (location.pathname !== "/") {
+    return null;
+  }
+
+  return (
+    <nav className="nav-column">
+      <Link className="Applink" to="/recipe">Create Recipes</Link>
+      <Link className="Applink" to="/tracker">Calorie Tracker</Link>
+    </nav>
+  );
+}
 
 function App() {
   return (
     <Router>
+          {/* ✅ Show links only when at home */}
+      <ConditionalNav />
+      
       {/* ✅ Navigation is outside of Routes */}
-     <nav className="p-4 bg-gray-200 flex gap-1">
+     {/* <nav className=" nav-column"> */}
         {/* <Link to="/">Home</Link> */}
-        <Link className="Applink" to="/recipe">Create Recipes</Link>
+        {/* <Link className="Applink" to="/recipe">Create Recipes</Link>
         <Link className="Applink" to="/tracker">Calorie Tracker</Link>
-      </nav>
+      </nav> */}
 
       {/* ✅ All routes in one place */}
       <Routes>
@@ -25,6 +44,7 @@ function App() {
         <Route path="/recipe" element={<RecipeApp />} />
         <Route path="/tracker" element={<TrackerApp />} />
         <Route path="/tracker/day/:dayName" element={<DayDetailWrapper />} />
+        <Route path="/tracker/monthly" element={<MonthlyProgress />} />
       </Routes>
     </Router>
   );
