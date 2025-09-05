@@ -140,8 +140,14 @@ export default function DayDetail() {
   const addFoodFromDB = () => {
     if (!foodQuery || !foodAmount) return;
 
-    const nutri = NUTRITION_DB[foodQuery.name.toLowerCase()];
-    if (!nutri) return;
+    // find the DB key case-insensitively
+  const key = Object.keys(NUTRITION_DB).find(
+    (k) => k.toLowerCase() === foodQuery.name.toLowerCase()
+  );
+
+     if (!key) return;
+    const nutri = NUTRITION_DB[key];
+   
 
     let multiplier = 1;
     if (nutri.unit === 'g') multiplier = foodAmount / 100;
