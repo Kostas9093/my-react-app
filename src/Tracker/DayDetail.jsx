@@ -212,7 +212,7 @@ export default function DayDetail() {
           <div className="mb-4 text-sm text-gray-700">
             <strong>Daily Totals:</strong>
             <br />
-            Calories: {data[dayName].total.toFixed(0)} kcal
+            Calories: {data[dayName].total} kcal
             <br />
             Protein: {totalMacros.protein.toFixed(1)} g, Carbs: {totalMacros.carbs.toFixed(1)} g, Fat: {totalMacros.fat.toFixed(1)} g
           </div>
@@ -292,12 +292,12 @@ export default function DayDetail() {
               ) : (
                 <div className="flex justify-between w-full">
                   <span onClick={() => handleEditClick(index)} className="cursor-pointer">
-                    <strong>{meal.name}</strong>: {meal.calories.toFixed(0)} kcal
+                    <strong>{meal.name}</strong>: {meal.calories} kcal
                     <span className="text-gray-500 text-sm"> ({meal.time})</span>
                     <br />
                     {meal.protein !== undefined && (
                       <span className="text-sm text-gray-600">
-                        Protein: {meal.protein.toFixed(1)}g, Carbs: {meal.carbs.toFixed(1) || 0}g, Fat: {meal.fat.toFixed(1) || 0}g
+                        Protein: {meal.protein}g, Carbs: {meal.carbs || 0}g, Fat: {meal.fat || 0}g
                       </span>
                     )}
                   </span>
@@ -431,6 +431,7 @@ export default function DayDetail() {
     </select>
   )}
 </div>
+      
       </div>
     </div>
   );
