@@ -12,5 +12,8 @@ export const NUTRITION_DB = {
   "wrap": { unit: "item", calories: 170, protein: 10.4, carbs: 27.7, fat: 3.0 },
   "egg whites": { unit: "g", calories: 43, protein: 10.8, carbs: 0, fat: 0 },
   "potatos boiled": { unit: "g", calories: 72, protein: 1.8, carbs: 17, fat: 0.1 },
-  "olive oil": { unit: "g", calories: 884, protein: 0, carbs: 0, fat: 98 }
+  "olive oil": { unit: "g", calories: 884, protein: 0, carbs: 0, fat: 98 },
+  "Feta olympus original": { unit: "g", calories: 276, protein: 16.5, carbs: 0.7, fat: 23 },
+  "Crispy Chicken strips": { unit: "g", calories: 221, protein: 19.4, carbs: 15.6, fat: 8.7 },
+  "Cheddar High protein": { unit: "g", calories: 272, protein: 30.7, carbs: 0.1, fat: 16.5 }
 }

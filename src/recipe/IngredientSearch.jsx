@@ -4,40 +4,55 @@ import { NUTRITION_DB } from "./NutritionDB.js";
 export default function IngredientSearch({ onSelect }) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
+  const [showResults, setShowResults] = useState(false);
+  
+ const handleChange = (e) => {
+    const value = e.target.value;
+    setQuery(value);
 
-  const handleSearch = (e) => {
-    const q = e.target.value;
-    setQuery(q);
-    if (!q) {
+    if (value.length > 0) {
+      const matches = Object.keys(NUTRITION_DB)
+        .filter((key) => key.toLowerCase().includes(value.toLowerCase()))
+        .map((key) => ({
+          name: key,
+          ...NUTRITION_DB[key],
+        }));
+      setResults(matches);
+      setShowResults(true);
+    } else {
       setResults([]);
-      return;
+      setShowResults(false);
     }
-    const filtered = Object.keys(NUTRITION_DB).filter((key) =>
-      key.toLowerCase().includes(q.toLowerCase())
-    );
-    setResults(filtered.map((key) => ({ name: key, ...NUTRITION_DB[key] })));
+  };
+
+  const handleSelect = (item) => {
+    setQuery(item.name);      // ✅ Fill search bar
+    setShowResults(false);    // ✅ Close dropdown
+    onSelect(item);           // ✅ Send selection back to parent
   };
 
   return (
-    <div className="mt-4">
+    <div className="relative w-full">
       <input
         type="text"
         value={query}
-        onChange={handleSearch}
+        onChange={handleChange}
         placeholder="Search ingredient"
         className="border px-2 py-1 rounded w-full"
       />
-      <ul className="mt-2 border rounded p-2 bg-gray-50 max-h-40 overflow-y-auto">
-        {results.map((food, idx) => (
-          <li
-            key={idx}
-            className="cursor-pointer hover:bg-gray-200 p-1"
-            onClick={() => onSelect(food)}
-          >
-            <strong>{food.name}</strong> — {food.calories} kcal, P {food.protein}g, C {food.carbs}g, F {food.fat}g
-          </li>
-        ))}
-      </ul>
+      {showResults && results.length > 0 && (
+        <ul className="absolute z-10 bg-white border rounded w-full max-h-40 overflow-y-auto shadow">
+          {results.map((item, idx) => (
+            <li
+              key={idx}
+              className="p-2 hover:bg-gray-100 cursor-pointer"
+              onClick={() => handleSelect(item)}
+            >
+              <strong>{item.name} ({item.unit})</strong> — {item.calories} kcal, P {item.protein}g, C {item.carbs}g, F {item.fat}g
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }

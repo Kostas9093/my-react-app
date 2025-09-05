@@ -158,7 +158,7 @@ export default function TrackerApp() {
         <>
           <button
             onClick={() => setEditingProfile(true)}
-            className="mb-4 text-sm text-blue-600 underline"
+            className="Profile"
           >
             Update Weight or Activity
           </button>
