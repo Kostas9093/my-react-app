@@ -40,6 +40,9 @@ export default function DayDetail() {
   // Saved recipes
   const [savedRecipes, setSavedRecipes] = useState([]);
 
+  const [resetSearch, setResetSearch] = useState(false);
+
+
   useEffect(() => {
     const storedRecipes = JSON.parse(localStorage.getItem('recipes') || '[]');
     const mapped = storedRecipes.map(r => ({
@@ -165,6 +168,7 @@ export default function DayDetail() {
     addMeal(newMeal);
     setFoodQuery(null);
     setFoodAmount('');
+    setResetSearch(prev => !prev);   // 🔄 toggle reset
   };
 
   const totalMacros = meals.reduce(
@@ -208,7 +212,7 @@ export default function DayDetail() {
           <div className="mb-4 text-sm text-gray-700">
             <strong>Daily Totals:</strong>
             <br />
-            Calories: {data[dayName].total} kcal
+            Calories: {data[dayName].total.toFixed(0)} kcal
             <br />
             Protein: {totalMacros.protein.toFixed(1)} g, Carbs: {totalMacros.carbs.toFixed(1)} g, Fat: {totalMacros.fat.toFixed(1)} g
           </div>
@@ -288,12 +292,12 @@ export default function DayDetail() {
               ) : (
                 <div className="flex justify-between w-full">
                   <span onClick={() => handleEditClick(index)} className="cursor-pointer">
-                    <strong>{meal.name}</strong>: {meal.calories} kcal
+                    <strong>{meal.name}</strong>: {meal.calories.toFixed(0)} kcal
                     <span className="text-gray-500 text-sm"> ({meal.time})</span>
                     <br />
                     {meal.protein !== undefined && (
                       <span className="text-sm text-gray-600">
-                        Protein: {meal.protein}g, Carbs: {meal.carbs || 0}g, Fat: {meal.fat || 0}g
+                        Protein: {meal.protein.toFixed(1)}g, Carbs: {meal.carbs.toFixed(1) || 0}g, Fat: {meal.fat.toFixed(1) || 0}g
                       </span>
                     )}
                   </span>
@@ -371,7 +375,7 @@ export default function DayDetail() {
 <div className="mb-4">
   <div className="items-center">
     <div className="flex-1">
-      <IngredientSearch onSelect={setFoodQuery} />
+      <IngredientSearch onSelect={setFoodQuery} resetSignal={resetSearch} />
     </div>
   </div>
     <div>
@@ -427,7 +431,6 @@ export default function DayDetail() {
     </select>
   )}
 </div>
-      
       </div>
     </div>
   );

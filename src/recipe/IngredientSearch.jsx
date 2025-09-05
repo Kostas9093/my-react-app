@@ -1,11 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NUTRITION_DB } from "./NutritionDB.js";
 
-export default function IngredientSearch({ onSelect }) {
+
+export default function IngredientSearch({ onSelect , resetSignal }) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
   const [showResults, setShowResults] = useState(false);
   
+   useEffect(() => {
+    if (resetSignal) {
+      setQuery("");        // ✅ clear the input
+      setResults([]);      // ✅ clear search results
+      setShowResults(false);
+    }
+  }, [resetSignal]);
+
  const handleChange = (e) => {
     const value = e.target.value;
     setQuery(value);
