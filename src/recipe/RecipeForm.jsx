@@ -44,7 +44,7 @@ function RecipeForm({ onSave, initialData }) {
     let total = { calories: 0, protein: 0, carbs: 0, fat: 0 }
 
     for (let ing of ingredients) {
-      const nutri = NUTRITION_DB[ing.name.toLowerCase()]
+      const nutri = NUTRITION_DB[ing.name]
       if (!nutri) continue
 
     let multiplier = 1

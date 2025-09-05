@@ -8,11 +8,11 @@ export default function IngredientSearch({ onSelect , resetSignal }) {
   const [showResults, setShowResults] = useState(false);
   
    useEffect(() => {
-    if (resetSignal) {
+   
       setQuery("");        // ✅ clear the input
       setResults([]);      // ✅ clear search results
       setShowResults(false);
-    }
+    
   }, [resetSignal]);
 
  const handleChange = (e) => {
