@@ -1,3 +1,4 @@
+// IngredientsSearch
 import React, { useState, useEffect } from "react";
 import { NUTRITION_DB } from "./NutritionDB.js";
 

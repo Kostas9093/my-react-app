@@ -47,6 +47,7 @@ export default function DayDetail() {
     const storedRecipes = JSON.parse(localStorage.getItem('recipes') || '[]');
     const mapped = storedRecipes.map(r => ({
     name: r.name,
+    portions: r.portions || 1, // 👈 default to 1 if missing
     totalCalories: r.total?.calories ?? 0,
     totalProtein: r.total?.protein ?? 0,
     totalCarbs: r.total?.carbs ?? 0,
@@ -292,7 +293,7 @@ export default function DayDetail() {
               ) : (
                 <div className="flex justify-between w-full">
                   <span onClick={() => handleEditClick(index)} className="cursor-pointer">
-                    <strong>{meal.name}</strong>: {meal.calories.toFixed(0)} kcal
+                    <strong>{meal.name}</strong>: {meal.calories.toFixed(0)} kcal (per portion)
                     <span className="text-gray-500 text-sm"> ({meal.time})</span>
                     <br />
                     {meal.protein !== undefined && (
@@ -405,29 +406,37 @@ export default function DayDetail() {
       className="border rounded p-2 w-full bg-gray-50"
       defaultValue=""
       onChange={(e) => {
-        const selected = savedRecipes[e.target.value];
-        if (!selected) return;
+  const selected = savedRecipes[e.target.value];
+  if (!selected) return;
 
-        const newMeal = {
-          name: selected.name,
-          calories: selected.totalCalories,
-          protein: selected.totalProtein,
-          carbs: selected.totalCarbs,
-          fat: selected.totalFat,
-          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        };
-        addMeal(newMeal);
-        e.target.value = ""; // reset selection after adding
-      }}
+  const portions = selected.portions || 1; // fallback for older items
+
+  const newMeal = {
+    name: `${selected.name}`,
+    calories: (selected.totalCalories || 0) / portions,
+    protein:  (selected.totalProtein  || 0) / portions,
+    carbs:    (selected.totalCarbs    || 0) / portions,
+    fat:      (selected.totalFat      || 0) / portions,
+    time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+  };
+
+  addMeal(newMeal);
+  e.target.value = "";
+}}
     >
       <option value="" disabled>
         Select a recipe to add
       </option>
-      {savedRecipes.map((recipe, idx) => (
-        <option key={idx} value={idx}>
-          {recipe.name} — {recipe.totalCalories} kcal
-        </option>
-      ))}
+      {savedRecipes.map((recipe, idx) => {
+  const portions = recipe.portions || 1;
+  const perPortionCalories = (recipe.totalCalories || 0) / portions;
+
+  return (
+    <option key={idx} value={idx}>
+      {recipe.name} — {perPortionCalories.toFixed(0)} kcal per portion
+    </option>
+  );
+})}
     </select>
   )}
 </div>
