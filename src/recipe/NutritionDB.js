@@ -17,5 +17,7 @@ export const NUTRITION_DB = {
   "crispy chicken strips": { unit: "g", calories: 221, protein: 19.4, carbs: 15.6, fat: 8.7 },
   "cheddar high protein": { unit: "g", calories: 272, protein: 30.7, carbs: 0.1, fat: 16.5 },
   "Butter country life": { unit: "g", calories: 747, protein: 0.5, carbs: 0.1, fat: 82.7 },
-  "Tiramisu (Morrisons)": { unit: "g", calories: 282, protein: 3.3, carbs: 42, fat: 9.4 }
+  "Tiramisu (Morrisons)": { unit: "g", calories: 282, protein: 3.3, carbs: 42, fat: 9.4 },
+  "Protein shake whey isolate": { unit: "g", calories: 362, protein: 83, carbs: 2.7, fat: 0.8 },
+  "Protein shake beef isolate": { unit: "g", calories: 368, protein: 90, carbs: 0.8, fat: 0 }
 }
