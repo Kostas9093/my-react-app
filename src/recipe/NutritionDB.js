@@ -15,5 +15,7 @@ export const NUTRITION_DB = {
   "olive oil": { unit: "g", calories: 884, protein: 0, carbs: 0, fat: 98 },
   "feta olympus original": { unit: "g", calories: 276, protein: 16.5, carbs: 0.7, fat: 23 },
   "crispy chicken strips": { unit: "g", calories: 221, protein: 19.4, carbs: 15.6, fat: 8.7 },
-  "cheddar high protein": { unit: "g", calories: 272, protein: 30.7, carbs: 0.1, fat: 16.5 }
+  "cheddar high protein": { unit: "g", calories: 272, protein: 30.7, carbs: 0.1, fat: 16.5 },
+  "Butter country life": { unit: "g", calories: 747, protein: 0.5, carbs: 0.1, fat: 82.7 },
+  "Tiramisu (Morrisons)": { unit: "g", calories: 282, protein: 3.3, carbs: 42, fat: 9.4 }
 }
