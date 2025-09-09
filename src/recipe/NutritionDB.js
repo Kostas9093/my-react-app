@@ -26,5 +26,7 @@ export const NUTRITION_DB = {
   "Cow's milk Semi-skimmed": { unit: "g", calories: 47, protein: 3.6, carbs: 4.8, fat: 1.8 },
   "Goat's mik semi-skimemed": { unit: "g", calories: 44, protein: 3.0, carbs: 4.3, fat: 1.6 },
   "cheese coleslaw": { unit: "g", calories: 160, protein: 3.3, carbs: 5.3, fat: 13.6 },
+  "egg white (boiled)": { unit: "item", calories: 17, protein: 3.6, carbs: 0.2, fat: 0 },
+  "sourdough bread": { unit: "g", calories: 300, protein: 10, carbs: 60, fat: 2.5 },
 
 }
