@@ -19,5 +19,12 @@ export const NUTRITION_DB = {
   "Butter country life": { unit: "g", calories: 747, protein: 0.5, carbs: 0.1, fat: 82.7 },
   "Tiramisu (Morrisons)": { unit: "g", calories: 282, protein: 3.3, carbs: 42, fat: 9.4 },
   "Protein shake whey isolate": { unit: "g", calories: 362, protein: 83, carbs: 2.7, fat: 0.8 },
-  "Protein shake beef isolate": { unit: "g", calories: 368, protein: 90, carbs: 0.8, fat: 0 }
+  "Protein shake beef isolate": { unit: "g", calories: 368, protein: 90, carbs: 0.8, fat: 0 },
+  "Pint of Stella": { unit: "item", calories: 224, protein: 0, carbs: 14, fat: 0 },
+  "cherry tomatoes": { unit: "g", calories: 20, protein: 0.7, carbs: 3.1, fat:0.3  },
+  "corn cob": { unit: "g", calories: 107, protein: 3.7, carbs: 16.1, fat: 2.5 },
+  "Cow's milk Semi-skimmed": { unit: "g", calories: 47, protein: 3.6, carbs: 4.8, fat: 1.8 },
+  "Goat's mik semi-skimemed": { unit: "g", calories: 44, protein: 3.0, carbs: 4.3, fat: 1.6 },
+  "cheese coleslaw": { unit: "g", calories: 160, protein: 3.3, carbs: 5.3, fat: 13.6 },
+
 }

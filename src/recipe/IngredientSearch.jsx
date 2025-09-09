@@ -66,3 +66,81 @@ export default function IngredientSearch({ onSelect , resetSignal }) {
     </div>
   );
 }
+
+
+// // IngredientsSearch
+// import React, { useState, useEffect } from "react";
+// import { NUTRITION_DB } from "./NutritionDB.js";
+// import { useIngredients } from "./useIngredients.js";
+
+
+// export default function IngredientSearch({ onSelect , resetSignal }) {
+//   const [query, setQuery] = useState("");
+//   const [results, setResults] = useState([]);
+//   const [showResults, setShowResults] = useState(false);
+//   const { ingredients, loading } = useIngredients();
+ 
+
+//    useEffect(() => {
+   
+//       setQuery("");        // ✅ clear the input
+//       setResults([]);      // ✅ clear search results
+//       setShowResults(false);
+    
+//   }, [resetSignal]);
+
+  
+//   // if (loading) return <p>Loading ingredients...</p>;
+
+//  const handleChange = (e) => {
+//     const value = e.target.value;
+//     setQuery(value);
+
+//     if (value.length > 0) {
+//       const matches = Object.keys(ingredients)
+//         .filter((key) => key.includes(value))
+//         .map((key) => ({
+//           name: key,
+//            ...ingredients[key],
+//         }));
+//       setResults(matches);
+//       setShowResults(true);
+//     } else {
+//       setResults([]);
+//       setShowResults(false);
+//     }
+//   };
+
+//   const handleSelect = (item) => {
+//     setQuery(item.name);      // ✅ Fill search bar
+//     setShowResults(false);    // ✅ Close dropdown
+//     onSelect(item);           // ✅ Send selection back to parent
+//   };
+// console.log("ingredients from Firestore:", ingredients);
+//   return (
+//     <div className="relative w-full">
+//       <input
+//         type="text"
+//         value={query}
+//         onChange={handleChange}
+//         placeholder="Search ingredient"
+//         className="border px-2 py-1 rounded w-full"
+//       />
+//       {showResults && results.length > 0 && (
+//         <ul className="absolute z-10 bg-white border rounded w-full max-h-40 overflow-y-auto shadow">
+//           {results.map((item, idx) => (
+//             <li
+//               key={idx}
+//               className="p-2 hover:bg-gray-100 cursor-pointer"
+//               onClick={() => handleSelect(item)}
+//             >
+//               <strong>{item.name} ({item.unit})</strong> — {item.calories} kcal, P {item.protein}g, C {item.carbs}g, F {item.fat}g
+//             </li>
+//           ))}
+          
+//         </ul>
+//       )}
+//     </div>
+//   );
+// }
+

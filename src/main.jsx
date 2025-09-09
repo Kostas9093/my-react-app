@@ -7,6 +7,7 @@ import TrackerApp from "./Tracker/TApp"; // Your tracker app
 import DayDetailWrapper from "./Tracker/DayDetail"; // wrapper for /tracker/day/:date
 import MonthlyProgress from "./Tracker/MonthlyProgress";
 import './index.css'
+import AdminPage from "./AdminPage";
 
 // ✅ Separate component for conditional nav
 function ConditionalNav() {
@@ -45,6 +46,7 @@ function App() {
         <Route path="/tracker" element={<TrackerApp />} />
         <Route path="/tracker/day/:dayName" element={<DayDetailWrapper />} />
         <Route path="/tracker/monthly" element={<MonthlyProgress />} />
+        {/* <Route path="AdminPage" element={<AdminPage />} /> */}
       </Routes>
     </Router>
   );
