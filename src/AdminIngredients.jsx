@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { db } from "./recipe/firebase";
 import { collection, addDoc, onSnapshot, query, orderBy, deleteDoc, doc, setDoc } from "firebase/firestore";
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function AdminIngredients() {
@@ -16,17 +16,23 @@ export default function AdminIngredients() {
   });
 
   const [ingredients, setIngredients] = useState([]);
-    const navigate = useNavigate();
+  const navigate = useNavigate();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [inputPassword, setInputPassword] = useState("");
+
+
+    const ADMIN_PASSWORD = "123eee"; // 🔑 change this to your password
 
   // Fetch ingredients in real-time
   useEffect(() => {
+    if (!isAuthenticated) return; // 👈 don’t fetch until logged in
     const q = query(collection(db, "ingredients"), orderBy("name"));
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const data = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
       setIngredients(data);
     });
     return () => unsubscribe();
-  }, []);
+  }, [isAuthenticated]);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -68,6 +74,41 @@ export default function AdminIngredients() {
       alert("Failed to delete ingredient.");
     }
   };
+
+    const handleLogin = () => {
+    if (inputPassword === ADMIN_PASSWORD) {
+      setIsAuthenticated(true);
+    } else {
+      alert("Wrong password!");
+    }
+  };
+    // 👇 Login screen
+  if (!isAuthenticated) {   return (
+      <div className=" items-center mt-20">
+        <h2 className="mb-4 text-lg font-bold">Enter Admin Password</h2>
+        <input
+          type="password"
+          value={inputPassword}
+          onChange={(e) => setInputPassword(e.target.value)}
+          className="border p-2 mb-2"
+          placeholder="Password"
+        />
+        <button
+          className="bg-blue-500 text-white px-4 py-2"
+          onClick={handleLogin}
+        >
+          Login
+        </button>
+        <button
+          onClick={() => navigate('/')}
+          className="bg-blue-500 text-white px-4 py-2"
+        >
+          ← Back
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div className="p-4">
        <button onClick={() => navigate('/')} className="mb-4 text-blue-500 hover:underline">
