@@ -1,44 +1,54 @@
-// IngredientsSearch
-import React, { useState, useEffect } from "react";
-import { NUTRITION_DB } from "./NutritionDB.js";
+// src/IngredientSearch.jsx
+import React, { useState, useMemo, useEffect } from "react";
+import { useIngredients } from "./useIngredients";
 
-
-export default function IngredientSearch({ onSelect , resetSignal }) {
+export default function IngredientSearch({ onSelect, resetSignal }) {
   const [query, setQuery] = useState("");
-  const [results, setResults] = useState([]);
   const [showResults, setShowResults] = useState(false);
-  
-   useEffect(() => {
-   
-      setQuery("");        // ✅ clear the input
-      setResults([]);      // ✅ clear search results
-      setShowResults(false);
-    
+  const { ingredients, loading, error } = useIngredients();
+
+  // Reset input when parent triggers reset
+  useEffect(() => {
+    setQuery("");
+    setShowResults(false);
   }, [resetSignal]);
 
- const handleChange = (e) => {
-    const value = e.target.value;
-    setQuery(value);
 
-    if (value.length > 0) {
-      const matches = Object.keys(NUTRITION_DB)
-        .filter((key) => key.toLowerCase().includes(value.toLowerCase()))
-        .map((key) => ({
-          name: key,
-          ...NUTRITION_DB[key],
-        }));
-      setResults(matches);
-      setShowResults(true);
-    } else {
-      setResults([]);
-      setShowResults(false);
-    }
-  };
+  
+  // Compute results on the fly instead of keeping them in state
+  const results = useMemo(() => {
+    const q = query.trim();
+    if (!q) return [];
+    const qLower = q.toLowerCase()
+    
+    return Object.keys(ingredients)
+      .filter((key) => {
+        const item = ingredients[key];
+        
+        return (
+          key.toLowerCase().includes(qLower) ||
+      (item._displayName && item._displayName.toLowerCase().includes(qLower))
+    )
+  })
+      .map((key) => {
+        const item = ingredients[key];
+        return {
+          name: item._displayName,
+          key,
+          unit: item.unit,
+          calories: item.calories,
+          protein: item.protein,
+          carbs: item.carbs,
+          fat: item.fat,
+          _id: item._id,
+        };
+      });
+  }, [query, ingredients]);
 
   const handleSelect = (item) => {
-    setQuery(item.name);      // ✅ Fill search bar
-    setShowResults(false);    // ✅ Close dropdown
-    onSelect(item);           // ✅ Send selection back to parent
+    setQuery(item.name);
+    setShowResults(false);
+    onSelect(item); // send entire ingredient object
   };
 
   return (
@@ -46,101 +56,40 @@ export default function IngredientSearch({ onSelect , resetSignal }) {
       <input
         type="text"
         value={query}
-        onChange={handleChange}
-        placeholder="Search ingredient"
+        onChange={(e) => setQuery(e.target.value)}
+        placeholder={
+          loading
+            ? "Loading ingredients..."
+            : error
+            ? "Error loading ingredients"
+            : "Search ingredient"
+        }
         className="border px-2 py-1 rounded w-full"
+        onFocus={() => setShowResults(true)}
       />
-      {showResults && results.length > 0 && (
+
+      {showResults && (
         <ul className="absolute z-10 bg-white border rounded w-full max-h-40 overflow-y-auto shadow">
-          {results.map((item, idx) => (
-            <li
-              key={idx}
-              className="p-2 hover:bg-gray-100 cursor-pointer"
-              onClick={() => handleSelect(item)}
-            >
-              <strong>{item.name} ({item.unit})</strong> — {item.calories} kcal, P {item.protein}g, C {item.carbs}g, F {item.fat}g
-            </li>
-          ))}
+          {loading && <li className="p-2">Loading...</li>}
+          {!loading && results.length === 0 && (
+            <li className="p-2">No results</li>
+          )}
+          {!loading &&
+            results.map((item) => (
+              <li
+                key={item.key}
+                className="p-2 hover:bg-gray-100 cursor-pointer"
+                onClick={() => handleSelect(item)}
+              >
+                <strong>
+                  {item.name} ({item.unit})
+                </strong>{" "}
+                — {item.calories} kcal, P {item.protein}g, C {item.carbs}g, F{" "}
+                {item.fat}g
+              </li>
+            ))}
         </ul>
       )}
     </div>
   );
 }
-
-
-// // IngredientsSearch
-// import React, { useState, useEffect } from "react";
-// import { NUTRITION_DB } from "./NutritionDB.js";
-// import { useIngredients } from "./useIngredients.js";
-
-
-// export default function IngredientSearch({ onSelect , resetSignal }) {
-//   const [query, setQuery] = useState("");
-//   const [results, setResults] = useState([]);
-//   const [showResults, setShowResults] = useState(false);
-//   const { ingredients, loading } = useIngredients();
- 
-
-//    useEffect(() => {
-   
-//       setQuery("");        // ✅ clear the input
-//       setResults([]);      // ✅ clear search results
-//       setShowResults(false);
-    
-//   }, [resetSignal]);
-
-  
-//   // if (loading) return <p>Loading ingredients...</p>;
-
-//  const handleChange = (e) => {
-//     const value = e.target.value;
-//     setQuery(value);
-
-//     if (value.length > 0) {
-//       const matches = Object.keys(ingredients)
-//         .filter((key) => key.includes(value))
-//         .map((key) => ({
-//           name: key,
-//            ...ingredients[key],
-//         }));
-//       setResults(matches);
-//       setShowResults(true);
-//     } else {
-//       setResults([]);
-//       setShowResults(false);
-//     }
-//   };
-
-//   const handleSelect = (item) => {
-//     setQuery(item.name);      // ✅ Fill search bar
-//     setShowResults(false);    // ✅ Close dropdown
-//     onSelect(item);           // ✅ Send selection back to parent
-//   };
-// console.log("ingredients from Firestore:", ingredients);
-//   return (
-//     <div className="relative w-full">
-//       <input
-//         type="text"
-//         value={query}
-//         onChange={handleChange}
-//         placeholder="Search ingredient"
-//         className="border px-2 py-1 rounded w-full"
-//       />
-//       {showResults && results.length > 0 && (
-//         <ul className="absolute z-10 bg-white border rounded w-full max-h-40 overflow-y-auto shadow">
-//           {results.map((item, idx) => (
-//             <li
-//               key={idx}
-//               className="p-2 hover:bg-gray-100 cursor-pointer"
-//               onClick={() => handleSelect(item)}
-//             >
-//               <strong>{item.name} ({item.unit})</strong> — {item.calories} kcal, P {item.protein}g, C {item.carbs}g, F {item.fat}g
-//             </li>
-//           ))}
-          
-//         </ul>
-//       )}
-//     </div>
-//   );
-// }
-

@@ -149,23 +149,29 @@ export default function DayDetail() {
     (k) => k === foodQuery.name
   );
 
-     if (!key) return;
-    const nutri = NUTRITION_DB[key];
+     const nutri = foodQuery; // already has { name, unit, calories, protein, carbs, fat }
+
    
 
     let multiplier = 1;
-    if (nutri.unit === 'g') multiplier = foodAmount / 100;
-    else if (nutri.unit === 'item') multiplier = foodAmount;
+    if (nutri.unit === "g") {
+      multiplier = foodAmount / 100; // per 100g basis
+    } else if (nutri.unit === "item") {
+      multiplier = foodAmount; // count of items
+    }
 
-    const newMeal = {
-      name: `${foodAmount}${nutri.unit} ${foodQuery.name}`,
-      calories: nutri.calories * multiplier,
-      protein: nutri.protein * multiplier,
-      carbs: nutri.carbs * multiplier,
-      fat: nutri.fat * multiplier,
-      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+  const newMeal = {
+      name: `${foodAmount}${nutri.unit} ${nutri.name}`,
+      calories: (nutri.calories || 0) * multiplier,
+      protein:  (nutri.protein  || 0) * multiplier,
+      carbs:    (nutri.carbs    || 0) * multiplier,
+      fat:      (nutri.fat      || 0) * multiplier,
+      time: new Date().toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
     };
-
+    
     addMeal(newMeal);
     setFoodQuery(null);
     setFoodAmount('');
@@ -311,65 +317,7 @@ export default function DayDetail() {
         {meals.length === 0 && <li className="text-gray-500">No meals logged.</li>}
       </ul>
 
-     {/* Manual meal entry */}
-     <h3>Add meal and nutr info</h3>
-<div className="text-gray-500">
-  <div className="flex flex-col gap-2">
-    <input
-      type="text"
-      placeholder="Meal name"
-      value={mealName}
-      onChange={(e) => setMealName(e.target.value)}
-      className="border px-2 py-1 rounded w-full"
-    />
-    <input
-      type="number"
-      placeholder="Calories"
-      value={mealCalories}
-      onChange={(e) => setMealCalories(e.target.value)}
-      className="cal"
-    />
-  </div>
-  <br />
-  <div className="flex flex-col gap-2">
-    <input
-      type="number"
-      placeholder="Protein"
-      value={protein}
-      onChange={(e) => setProtein(e.target.value)}
-      className="Nutr"
-    />
-    <input
-      type="number"
-      placeholder="Carbs"
-      value={carbs}
-      onChange={(e) => setCarbs(e.target.value)}
-      className="Nutr"
-    />
-    <input
-      type="number"
-      placeholder="Fat"
-      value={fat}
-      onChange={(e) => setFat(e.target.value)}
-      className="Nutr"
-    />
-    <button onClick={handleAddManualMeal} className="addMeal">
-      Add
-    </button>
-    {/* <button
-      onClick={() => {
-        setMealName('');
-        setMealCalories('');
-        setProtein('');
-        setCarbs('');
-        setFat('');
-      }}
-      className="addMeal"
-    >
-      Cancel
-    </button> */}
-  </div>
-</div>
+ 
 <br/>
      {/* Search from NutritionDB */}
      <h3>Add a meal</h3>
@@ -440,8 +388,68 @@ export default function DayDetail() {
     </select>
   )}
 </div>
-      
+          {/* Manual meal entry */}
+     <h3>Add meal and nutr info</h3>
+<div className="text-gray-500">
+  <div className="flex flex-col gap-2">
+    <input
+      type="text"
+      placeholder="Meal name"
+      value={mealName}
+      onChange={(e) => setMealName(e.target.value)}
+      className="border px-2 py-1 rounded w-full"
+    />
+    <input
+      type="number"
+      placeholder="Calories"
+      value={mealCalories}
+      onChange={(e) => setMealCalories(e.target.value)}
+      className="cal"
+    />
+  </div>
+  <br />
+  <div className="flex flex-col gap-2">
+    <input
+      type="number"
+      placeholder="Protein"
+      value={protein}
+      onChange={(e) => setProtein(e.target.value)}
+      className="Nutr"
+    />
+    <input
+      type="number"
+      placeholder="Carbs"
+      value={carbs}
+      onChange={(e) => setCarbs(e.target.value)}
+      className="Nutr"
+    />
+    <input
+      type="number"
+      placeholder="Fat"
+      value={fat}
+      onChange={(e) => setFat(e.target.value)}
+      className="Nutr"
+    />
+    <button onClick={handleAddManualMeal} className="addMeal">
+      Add
+    </button>
+    {/* <button
+      onClick={() => {
+        setMealName('');
+        setMealCalories('');
+        setProtein('');
+        setCarbs('');
+        setFat('');
+      }}
+      className="addMeal"
+    >
+      Cancel
+    </button> */}
+  </div>
+</div>
       </div>
     </div>
+    
   );
+  
 }

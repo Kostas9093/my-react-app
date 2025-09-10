@@ -1,7 +1,7 @@
 // RecipeForm
 import React, { useState, useEffect } from 'react'
 import IngredientSearch from './IngredientSearch'
-import { NUTRITION_DB } from './NutritionDB'
+import { useIngredients } from './useIngredients'
 
 function RecipeForm({ onSave, initialData }) {
   const [name, setName] = useState('')
@@ -9,6 +9,8 @@ function RecipeForm({ onSave, initialData }) {
   const [selectedIngredient, setSelectedIngredient] = useState(null)
   const [grams, setGrams] = useState('')
   const [ingredientKey, setIngredientKey] = useState(0)
+
+  const { ingredients: ingredientDB, loading } = useIngredients();
 
   useEffect(() => {
     if (initialData) {
@@ -45,7 +47,7 @@ function RecipeForm({ onSave, initialData }) {
     let total = { calories: 0, protein: 0, carbs: 0, fat: 0 }
 
     for (let ing of ingredients) {
-      const nutri = NUTRITION_DB[ing.name]
+       const nutri = ingredientDB[ing.name];
       if (!nutri) continue
 
     let multiplier = 1
@@ -93,6 +95,7 @@ function RecipeForm({ onSave, initialData }) {
        <button
           className="addMeal"
           onClick={handleAddIngredient}
+            disabled={loading}
         >
           Add
         </button>
@@ -100,7 +103,8 @@ function RecipeForm({ onSave, initialData }) {
       <ul className="mb-2 list-disc pl-5">
         {ingredients.map((ing, idx) => (
             <li key={idx} className="flex justify-between items-center">
-            <span>{ing.grams}{ing.unit || "g"} of {ing.name}</span>
+            <span>{ing.grams}
+              {ingredientDB[ing.name]?.unit || "g"} of {ing.name}</span>
             {/* ✅ Delete button */}
             <button
               type="button"

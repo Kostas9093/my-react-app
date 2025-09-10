@@ -7,7 +7,7 @@ import TrackerApp from "./Tracker/TApp"; // Your tracker app
 import DayDetailWrapper from "./Tracker/DayDetail"; // wrapper for /tracker/day/:date
 import MonthlyProgress from "./Tracker/MonthlyProgress";
 import './index.css'
-import AdminPage from "./AdminPage";
+import AdminIngredients from "./AdminIngredients"; // ✅ Correct import
 
 // ✅ Separate component for conditional nav
 function ConditionalNav() {
@@ -22,6 +22,7 @@ function ConditionalNav() {
     <nav className="nav-column">
       <Link className="Applink" to="/recipe">Create Recipes</Link>
       <Link className="Applink" to="/tracker">Calorie Tracker</Link>
+      <Link className="Admin" to="/admin">Admin</Link> {/* 👈 add this */}
     </nav>
   );
 }
@@ -46,7 +47,7 @@ function App() {
         <Route path="/tracker" element={<TrackerApp />} />
         <Route path="/tracker/day/:dayName" element={<DayDetailWrapper />} />
         <Route path="/tracker/monthly" element={<MonthlyProgress />} />
-        {/* <Route path="AdminPage" element={<AdminPage />} /> */}
+         <Route path="/admin" element={<AdminIngredients />} />
       </Routes>
     </Router>
   );
