@@ -187,7 +187,7 @@ export default function TrackerApp() {
               className="flex justify-between items-center p-3 border rounded hover:bg-gray-50"
             >
               <span>{label}</span>
-              <span>{data[iso]?.total || 0} kcal</span>
+              <span>{data[iso]?.total.toFixed(0) || 0} kcal</span>
             </Link>
           );
         })}
