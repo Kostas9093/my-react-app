@@ -9,7 +9,6 @@ function RecipeForm({ onSave, initialData }) {
   const [selectedIngredient, setSelectedIngredient] = useState(null)
   const [grams, setGrams] = useState('')
   const [ingredientKey, setIngredientKey] = useState(0)
-
   const { ingredients: ingredientDB, loading } = useIngredients();
 
   useEffect(() => {
@@ -58,7 +57,6 @@ function RecipeForm({ onSave, initialData }) {
       // values are per item
       multiplier = ing.grams // here "grams" field actually means "count of items"
     }
-
     
     total.calories += nutri.calories * multiplier
     total.protein += nutri.protein * multiplier

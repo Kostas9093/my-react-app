@@ -188,6 +188,7 @@ export default function TrackerApp() {
             >
               <span>{label}</span>
               <span>{data[iso]?.total.toFixed(0) || 0} kcal</span>
+                {/* <span>{(data[iso]?.total ?? 0).toFixed(0)} kcal</span> */}
             </Link>
           );
         })}
