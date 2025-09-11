@@ -348,7 +348,7 @@ const confirmPendingFoods = () => {
       value={foodAmount}
       onChange={(e) => setFoodAmount(e.target.value)}
       className="gr"
-      placeholder={foodQuery?.unit === "item" ? "Count" : "Grams"}
+      placeholder={foodQuery?.unit === "item" ? "count" : "gr"}
     />
 
     <button onClick={addPendingFood} className="addMeal">Add</button>
