@@ -37,6 +37,9 @@ export default function DayDetail() {
   const [foodQuery, setFoodQuery] = useState(null);
   const [foodAmount, setFoodAmount] = useState('');
 
+    // NEW: list of pending ingredients (each: { food, amount })
+  const [pendingFoods, setPendingFoods] = useState([]);
+
   // Saved recipes
   const [savedRecipes, setSavedRecipes] = useState([]);
 
@@ -140,43 +143,56 @@ export default function DayDetail() {
     addMeal(newMeal);
   };
 
-  // NutritionDB search
-  const addFoodFromDB = () => {
-    if (!foodQuery || !foodAmount) return;
+  // Add the currently selected ingredient to the pending list (does NOT create a meal yet)
+const addPendingFood = () => {
+  if (!foodQuery || !foodAmount) return;
 
-    // find the DB key case-insensitively
-  const key = Object.keys(NUTRITION_DB).find(
-    (k) => k === foodQuery.name
+  setPendingFoods(prev => [
+    ...prev,
+    { food: foodQuery, amount: parseFloat(foodAmount) || 0 }
+  ]);
+
+  // reset inputs
+  setFoodQuery(null);
+  setFoodAmount('');
+  setResetSearch(prev => !prev);
+};
+
+// Remove a single pending ingredient by index
+const removePendingFood = (index) => {
+  setPendingFoods(prev => prev.filter((_, i) => i !== index));
+};
+
+// Confirm all pending ingredients: convert each to a meal and add it
+const confirmPendingFoods = () => {
+  if (!pendingFoods || pendingFoods.length === 0) return;
+
+   const summed = pendingFoods.reduce(
+    (acc, { food, amount }) => {
+      const nutri = food;
+      let multiplier = nutri.unit === 'g' ? amount / 100 : amount;
+      acc.calories += (nutri.calories || 0) * multiplier;
+      acc.protein  += (nutri.protein  || 0) * multiplier;
+      acc.carbs    += (nutri.carbs    || 0) * multiplier;
+      acc.fat      += (nutri.fat      || 0) * multiplier;
+      acc.names.push(`${amount}${nutri.unit} ${nutri.name}`);
+      return acc;
+    },
+    { calories: 0, protein: 0, carbs: 0, fat: 0, names: [] }
   );
 
-     const nutri = foodQuery; // already has { name, unit, calories, protein, carbs, fat }
-
-   
-
-    let multiplier = 1;
-    if (nutri.unit === "g") {
-      multiplier = foodAmount / 100; // per 100g basis
-    } else if (nutri.unit === "item") {
-      multiplier = foodAmount; // count of items
-    }
-
-  const newMeal = {
-      name: `${foodAmount}${nutri.unit} ${nutri.name}`,
-      calories: (nutri.calories || 0) * multiplier,
-      protein:  (nutri.protein  || 0) * multiplier,
-      carbs:    (nutri.carbs    || 0) * multiplier,
-      fat:      (nutri.fat      || 0) * multiplier,
-      time: new Date().toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-      }),
-    };
-    
-    addMeal(newMeal);
-    setFoodQuery(null);
-    setFoodAmount('');
-    setResetSearch(prev => !prev);   // 🔄 toggle reset
+  const combinedMeal = {
+    name: summed.names.join(' + '),
+    calories: summed.calories,
+    protein: summed.protein,
+    carbs: summed.carbs,
+    fat: summed.fat,
+    time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
   };
+
+  addMeal(combinedMeal);
+  setPendingFoods([]);
+};
 
   const totalMacros = meals.reduce(
     (totals, m) => {
@@ -319,15 +335,14 @@ export default function DayDetail() {
 
  
 <br/>
-     {/* Search from NutritionDB */}
-     <h3>Add a meal</h3>
+{/* Search from NutritionDB — now supports adding multiple ingredients to a pending list */}
+<h3>Add ingredients</h3>
 <div className="mb-4">
-  <div className="items-center">
+  <div className="flex items-center gap-2">
     <div className="flex-1">
       <IngredientSearch onSelect={setFoodQuery} resetSignal={resetSearch} />
     </div>
-  </div>
-    <div>
+
     <input
       type="number"
       value={foodAmount}
@@ -335,13 +350,31 @@ export default function DayDetail() {
       className="gr"
       placeholder={foodQuery?.unit === "item" ? "Count" : "Grams"}
     />
+
+    <button onClick={addPendingFood} className="addMeal">Add</button>
+  </div>
+
+  {pendingFoods.length > 0 && (
+    <div className="mt-3">
+      <h4 className="font-semibold">Pending ingredients</h4>
+      <ul className="list-disc pl-5 text-sm">
+        {pendingFoods.map((p, i) => (
+          <li key={i} className="flex justify-between items-center">
+            <span>{p.amount}{p.food.unit} {p.food.name}</span>
+            <div className="flex gap-2">
+              <button onClick={() => removePendingFood(i)} className="remove">Remove</button>
+            </div>
+          </li>
+        ))}
+      </ul>
+
+      <div className="mt-2 flex gap-2">
+        <button onClick={confirmPendingFoods} className="but">Confirm all</button>
+        <button onClick={() => setPendingFoods([])} className="but">Clear</button>
+      </div>
     </div>
-   
+  )}
 </div>
- <button
-      onClick={addFoodFromDB}
-      className="addMeal"
-    > Add</button>
 
       {/* Saved Recipes */}
       <div className="mt-6">
