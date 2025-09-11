@@ -10,7 +10,7 @@ function PortionControl({ portionCount, setPortionCount }) {
         value={portionCount}
         onChange={(e) => setPortionCount(Number(e.target.value))}
       >
-        {[...Array(10)].map((_, i) => (
+        {[...Array(20)].map((_, i) => (
           <option key={i + 1} value={i + 1}>{i + 1}</option>
         ))}
       </select>
