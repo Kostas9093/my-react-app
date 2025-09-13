@@ -116,16 +116,30 @@ export default function AdminIngredients() {
       </button>
       <h2 className="text-lg font-bold mb-4">Add Ingredient</h2>
 
-      {["name", "unit", "calories", "protein", "carbs", "fat"].map((field) => (
-        <input
-          key={field}
-          name={field}
-          placeholder={field}
-          value={form[field]}
-          onChange={handleChange}
-          className="border p-2 mb-2 block"
-        />
-      ))}
+     {["name", "unit", "calories", "protein", "carbs", "fat"].map((field) =>
+  field === "unit" ? (
+    <select
+      key={field}
+      name={field}
+      value={form[field]}
+      onChange={handleChange}
+      className="border p-2 mb-2 block"
+    >
+      <option value="" disabled>Select unit</option>
+      <option value="g">Grams</option>
+      <option value="item">Item</option>
+    </select>
+  ) : (
+    <input
+      key={field}
+      name={field}
+      placeholder={field}
+      value={form[field]}
+      onChange={handleChange}
+      className="border p-2 mb-2 block"
+    />
+  )
+)}
 
       <button className="bg-blue-500 text-white px-4 py-2 mb-4" onClick={handleSubmit}>
         Save Ingredient
