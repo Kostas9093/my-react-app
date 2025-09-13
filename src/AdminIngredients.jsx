@@ -45,10 +45,16 @@ export default function AdminIngredients() {
   }
   
   try {
+    let normalizedUnit = form.unit.toLowerCase().trim();
+    if (normalizedUnit === "item") {
+      normalizedUnit = "count"; // 🔑 standardize
+    }
+
+  
     const ingredientRef = doc(db, "ingredients", form.name); // use name as ID
     await setDoc(ingredientRef, {
       name: form.name,   
-      unit: form.unit,
+      unit: normalizedUnit,
       calories: Number(form.calories),
       protein: Number(form.protein),
       carbs: Number(form.carbs),
