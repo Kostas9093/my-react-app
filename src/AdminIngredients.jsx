@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 export default function AdminIngredients() {
   const [form, setForm] = useState({
     name: "",
-    unit: "g",
+    unit: "",
     calories: "",
     protein: "",
     carbs: "",
@@ -55,7 +55,7 @@ export default function AdminIngredients() {
       fat: Number(form.fat),
     });
     // alert("Ingredient added!");
-    setForm({ name: "", unit: "g", calories: "", protein: "", carbs: "", fat: "" });
+    setForm({ name: "", unit: "", calories: "", protein: "", carbs: "", fat: "" });
   } catch (err) {
     console.error(err);
     // alert("Failed to add ingredient.");
