@@ -225,7 +225,7 @@ const confirmPendingFoods = () => {
 
   return (
     <div className="p-4 max-w-xl mx-auto">
-      <button onClick={() => navigate('/')} className="mb-4 text-blue-500 hover:underline">
+      <button onClick={() => navigate('/tracker')} className="mb-4 text-blue-500 hover:underline">
         ← Back
       </button>
       <h2 className="text-xl font-bold mb-2">{readableDate}</h2>
