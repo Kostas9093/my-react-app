@@ -100,9 +100,20 @@ function RecipeForm({ onSave, initialData }) {
 
       <ul className="mb-2 list-disc pl-5">
         {ingredients.map((ing, idx) => (
-            <li key={idx} className="flex justify-between items-center">
-            <span>{ing.grams}
-              {ingredientDB[ing.name]?.unit || "g"} of {ing.name}</span>
+            <li key={idx} className="flex items-center gap-2 mb-3">
+            
+              {/* Editable grams/items */}
+      <input className="edit"
+        type="number"
+        value={ing.grams}
+        onChange={(e) => {
+          const updated = [...ingredients]
+          updated[idx].grams = parseFloat(e.target.value) || 0
+          setIngredients(updated)
+        }}
+          placeholder={ingredientDB[ing.name]?.unit === "item" ? "Count" : "Grams"}
+      />
+            <span>{ing.grams} {ingredientDB[ing.name]?.unit || "g"} of {ing.name}</span>
             {/* ✅ Delete button */}
             <button
               type="button"
