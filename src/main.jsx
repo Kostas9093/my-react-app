@@ -48,20 +48,9 @@ function App() {
 
   return (
     <Router>
-       <button onClick={handleSignOut}>Sign Out</button>
-       {/* <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1rem' }}> */}
-        <h2 id="user">Welcome {user.displayName || user.uid}</h2>
-        <br/>
-      {/* </div> */}
-          {/* ✅ Show links only when at home */}
+       <button className="signout" onClick={handleSignOut}>Sign Out</button>
+     
       <ConditionalNav />
-      
-      {/* ✅ Navigation is outside of Routes */}
-     {/* <nav className=" nav-column"> */}
-        {/* <Link to="/">Home</Link> */}
-        {/* <Link className="Applink" to="/recipe">Create Recipes</Link>
-        <Link className="Applink" to="/tracker">Calorie Tracker</Link>
-      </nav> */}
 
       {/* ✅ All routes in one place */}
       <Routes>
@@ -71,6 +60,7 @@ function App() {
         <Route path="/tracker/day/:dayName" element={<DayDetailWrapper />} />
         <Route path="/tracker/monthly" element={<MonthlyProgress />} />
          <Route path="/admin" element={<AdminIngredients />} />
+     
       </Routes>
     </Router>
   );
