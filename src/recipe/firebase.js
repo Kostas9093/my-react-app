@@ -1,7 +1,9 @@
 
 // src/firebase.js
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { getAuth, createUserWithEmailAndPassword,signInWithEmailAndPassword, signOut, updateProfile} from "firebase/auth";
+import { getFirestore , doc, setDoc } from "firebase/firestore";
+
 
 
 // Your web app's Firebase configuration
@@ -16,3 +18,28 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
+export const auth = getAuth(app);
+
+export const signUpWithEmail = async (email, password, alias) => {
+  const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+  const user = userCredential.user;
+ 
+
+  // Save alias in the user's profile
+  await updateProfile(user, { displayName: alias });
+
+
+  // (Optional) also store alias in Firestore
+  await setDoc(doc(db, "users", user.uid), {
+    email,
+    alias,
+    createdAt: new Date()
+  });
+
+  return user;
+};
+
+export const signInWithEmail = (email, password) =>
+  signInWithEmailAndPassword(auth, email, password);
+
+export const signOutUser = () => signOut(auth);

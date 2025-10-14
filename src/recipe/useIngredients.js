@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { collection, getDocs, onSnapshot } from "firebase/firestore";
 import { db } from "./firebase";
 
+
 export function useIngredients({ realtime = true } = {}) {
   const [ingredients, setIngredients] = useState({});
   const [loading, setLoading] = useState(true);

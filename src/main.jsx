@@ -8,6 +8,9 @@ import DayDetailWrapper from "./Tracker/DayDetail"; // wrapper for /tracker/day/
 import MonthlyProgress from "./Tracker/MonthlyProgress";
 import './index.css'
 import AdminIngredients from "./AdminIngredients"; // ✅ Correct import
+import AuthProvider, { useAuth }  from "./AuthProvider";
+import Login from "./SignInAnon";
+import { signOutUser } from "./recipe/firebase";
 
 // ✅ Separate component for conditional nav
 function ConditionalNav() {
@@ -28,8 +31,28 @@ function ConditionalNav() {
 }
 
 function App() {
+   const { user } = useAuth();
+
+// If no user, show login/sign-in UI
+   if (!user) return <Login />;
+
+    // handle sign out
+  const handleSignOut = async () => {
+    try {
+      await signOutUser();
+    } catch (err) {
+      console.error("Sign out failed", err);
+    }
+  };
+
+
   return (
     <Router>
+       <button onClick={handleSignOut}>Sign Out</button>
+       {/* <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1rem' }}> */}
+        <h2 id="user">Welcome {user.displayName || user.uid}</h2>
+        <br/>
+      {/* </div> */}
           {/* ✅ Show links only when at home */}
       <ConditionalNav />
       
@@ -55,7 +78,9 @@ function App() {
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <App />
+    <AuthProvider>
+      <App />
+    </AuthProvider>
   </React.StrictMode>
 );
 export default App;

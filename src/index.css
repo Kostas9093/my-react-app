@@ -253,7 +253,7 @@ input[type="number"]:focus {
  align-content: center;
  width: 200px;
  height: 100px;
- margin-top: 25%;
+ /* margin-top: 0%; */
 
 
 } 
@@ -282,3 +282,14 @@ margin-right: 15px;
   margin-bottom: 1rem;
 }
 
+#sum{
+   margin-top: 180px;
+}
+
+#user{
+  align-items: center;
+  align-self: center;
+  align-content: center;
+  text-align: center;
+  
+};
